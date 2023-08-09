@@ -1,10 +1,15 @@
 import turtle
+import winsound
+
+score_a = 0
+score_b = 0
 
 win = turtle.Screen()
 win.setup(800, 600)  # screen size
 win.bgcolor("blue")
 win.title("pingPong")
 win.tracer(0)  # to display the paddle in desired position initially
+
 # left paddle
 left = turtle.Turtle()
 left.speed(0)  # to move the paddle to left position immediately
@@ -31,8 +36,17 @@ ball.speed(0)
 ball.shape("circle")
 ball.color("white")
 ball.penup()
-ball.dx = 0.3  # ball movement
-ball.dy = 0.3
+ball.dx = 0.8  # ball movement
+ball.dy = 0.8
+
+# score
+pen = turtle.Turtle()
+pen.speed(0)
+pen.hideturtle()
+pen.color("white")
+pen.penup()
+pen.goto(0, 260)
+pen.write("Player A : 0 Player B : 0", align="center", font=("Ariel", 24, "normal"))
 
 
 # moving paddles
@@ -89,9 +103,40 @@ while True:  # for  constantly display screen
             380
         )  # optional incase if sys is slow it will check after crossing 290
         ball.dx *= -1
+        pen.clear()
+        score_a += 1
+        pen.write(
+            f"Player A : {score_a} Player B : {score_b}",
+            align="center",
+            font=("Ariel", 24, "normal"),
+        )
 
+    # left wall
     if ball.xcor() < -390:
         ball.setx(
             -390
         )  # optional incase if sys is slow it will check after crossing 290
         ball.dx *= -1
+        pen.clear()
+        score_b += 1
+        pen.write(
+            f"Player A : {score_a} Player B : {score_b}",
+            align="center",
+            font=("Ariel", 24, "normal"),
+        )
+
+    # collision with paddles
+    # for right paddle
+    if ball.xcor() > 360 and right.ycor() - 50 < ball.ycor() < right.ycor() + 50:
+        ball.setx(360)
+        ball.dx *= -1
+    # for left paddle
+    if ball.xcor() < -360 and left.ycor() - 50 < ball.ycor() < left.ycor() + 50:
+        ball.setx(-360)
+        ball.dx *= -1
+    if score_a == 5:
+        pen.write("Player A wins", align="center", font=("Ariel", 30, "normal"))
+        break
+    if score_b == 5:
+        pen.write("Player B wins", align="center", font=("Ariel", 30, "normal"))
+        break
