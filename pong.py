@@ -136,6 +136,7 @@ while True:  # for  constantly display screen
         ball.dx *= -1
     if score_a == 5:
         pen.write("Player A wins", align="center", font=("Ariel", 30, "normal"))
+
         break
     if score_b == 5:
         pen.write("Player B wins", align="center", font=("Ariel", 30, "normal"))
